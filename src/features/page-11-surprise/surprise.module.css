@@ -1,0 +1,307 @@
+/*
+ * Phase 11 (Gift 4 — Birthday Surprise Intro) materials. After Reference
+ * Image 11, with its red swapped for the site's maroon (INSTRUCTIONS §2): a
+ * full maroon page, a cream envelope whose "Happy Birthday Madam" card rises
+ * out of it, a white compact camera overlapping the lower left, a rose bouquet
+ * in a cream cone overlapping the right, and a handwritten "click me!" below.
+ *
+ * The cluster is one square placed centre-stage and sized to the viewport
+ * (portrait fits the width, landscape the height) so nothing scrolls. The card
+ * text is sized against the CARD (a size container) rather than the page, so it
+ * can never overflow the card in any orientation.
+ */
+
+.page {
+  container-type: size;
+  /* maroon-surface (in the markup) paints the card background + grain */
+}
+
+.content {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2cqh;
+  padding:
+    max(9cqh, calc(env(safe-area-inset-top) + 7cqh))
+    5cqw
+    max(6cqh, env(safe-area-inset-bottom));
+  overflow-x: hidden;
+}
+
+/* ---------- The cluster: envelope + card + camera + bouquet ---------- */
+
+.cluster {
+  position: relative;
+  width: min(92cqw, 72cqh, 440px);
+  /* Slightly shorter than square: trims the dead band under the composition
+     so the cluster + "click me!" sit centred like the reference. */
+  aspect-ratio: 1 / 0.86;
+}
+
+.piece {
+  position: absolute;
+  display: block;
+  filter: drop-shadow(0 3px 3px rgb(20 0 0 / 0.26)) drop-shadow(0 14px 18px rgb(20 0 0 / 0.24));
+}
+.piece > svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Envelope back (body + open flap) and front pocket share one box so they
+   overlay exactly; the card sits between them in z-order. */
+.envelopeBack,
+.envelopeFront {
+  left: 12%;
+  top: 33%;
+  width: 56%;
+  rotate: -2deg;
+}
+.envelopeBack {
+  z-index: 1;
+}
+.envelopeFront {
+  z-index: 3;
+}
+
+/* The card is a real button (HTML text, not SVG) so the script stays crisp. */
+.cardBtn {
+  left: 15%;
+  top: 6%;
+  width: 50%;
+  z-index: 2;
+  rotate: -5deg;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.card {
+  container-type: inline-size;
+  position: relative;
+  display: block;
+  background-color: var(--color-warm-white);
+  background-image: var(--paper-grain), linear-gradient(168deg, rgb(255 255 255 / 0.55), transparent 45%);
+  background-size: 200px 200px, 100% 100%;
+  border-radius: 3px;
+  /* Percentages (not cqw): resolve against the card's own width, so the card
+     keeps its own padding. Container units here would point at .page instead. */
+  padding: 13% 8% 15%;
+  box-shadow: var(--shadow-lifted);
+  transition: translate 0.2s var(--ease-settle);
+}
+@media (hover: hover) {
+  .cardBtn:hover .card {
+    translate: 0 -3px;
+  }
+}
+.cardBtn:active .card {
+  translate: 0 2px;
+}
+.cardBtn:focus-visible {
+  outline: 2px dashed var(--color-warm-white);
+  outline-offset: 6px;
+}
+
+/* Washi tape holding the top of the card (sized against the card). */
+.card::before {
+  content: "";
+  position: absolute;
+  top: -3.5cqw;
+  left: 50%;
+  width: 40cqw;
+  height: 9cqw;
+  translate: -50% 0;
+  rotate: -3deg;
+  background-image: repeating-linear-gradient(-45deg, rgb(236 214 208 / 0.95) 0 6px, rgb(214 176 168 / 0.95) 6px 9px);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.25), 0 1px 2px rgb(33 26 23 / 0.2);
+}
+
+.cardLine {
+  display: block;
+  text-align: center;
+  font-family: var(--font-hand);
+  font-weight: 700;
+  line-height: 1.06;
+  color: var(--color-ink);
+  font-size: 20cqw;
+}
+.cardMadam {
+  color: var(--color-maroon);
+  font-size: 22cqw;
+  margin-top: 1cqw;
+}
+
+.camera {
+  left: -2%;
+  top: 49%;
+  width: 45%;
+  z-index: 4;
+  rotate: -6deg;
+}
+
+/* The bouquet sways a hair once placed. Resting tilt is the CSS `rotate`
+   property so GSAP's transform-rotation composes with it. */
+.bouquet {
+  right: -1%;
+  top: 22%;
+  width: 43%;
+  z-index: 4;
+  rotate: 8deg;
+  transform-origin: 50% 94%;
+  animation: bouquetSway 6s ease-in-out 2.4s infinite;
+}
+@keyframes bouquetSway {
+  0%, 100% { rotate: 8deg; }
+  50% { rotate: 9.6deg; }
+}
+
+.bow {
+  left: 33%;
+  top: 52%;
+  width: 12%;
+  z-index: 5;
+  rotate: -8deg;
+}
+.heart {
+  right: 29%;
+  top: 60%;
+  width: 11%;
+  z-index: 5;
+  rotate: 10deg;
+}
+.tinies {
+  right: 22%;
+  top: 66%;
+  width: 15%;
+  z-index: 5;
+}
+
+/* ---------- "click me!" ---------- */
+
+.clickme {
+  padding: 0.35em 1.1em;
+  border: 0;
+  background: none;
+  color: var(--color-warm-white);
+  font-family: var(--font-hand);
+  font-weight: 700;
+  font-size: clamp(20px, 6.4cqw, 32px);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 10px rgb(20 0 0 / 0.45);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  animation: clickmeBreathe 2.6s ease-in-out infinite;
+}
+@keyframes clickmeBreathe {
+  0%, 100% { scale: 1; opacity: 0.92; }
+  50% { scale: 1.06; opacity: 1; }
+}
+@media (hover: hover) {
+  .clickme:hover {
+    text-decoration: underline dotted;
+    text-underline-offset: 0.25em;
+  }
+}
+.clickme:focus-visible {
+  outline: 2px dashed var(--color-warm-white);
+  outline-offset: 4px;
+}
+
+/* ---------- The Back tab ---------- */
+
+.back {
+  position: absolute;
+  top: max(2.5cqh, env(safe-area-inset-top));
+  left: 3cqw;
+  z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.5em 1em 0.55em;
+  rotate: -2deg;
+  background: var(--color-warm-white);
+  color: var(--color-maroon-deep);
+  font-family: var(--font-hand);
+  font-size: clamp(16px, 4.6cqw, 22px);
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+  border: 0;
+  clip-path: polygon(3% 8%, 97% 2%, 99% 92%, 2% 98%);
+  box-shadow: 0 2px 2px rgb(20 0 0 / 0.2), 0 8px 14px -6px rgb(20 0 0 / 0.4);
+  transition: translate 0.2s var(--ease-settle), rotate 0.2s var(--ease-settle);
+}
+.back::before {
+  content: "";
+  position: absolute;
+  top: -0.5em;
+  left: 50%;
+  width: 42%;
+  height: 1.1em;
+  translate: -50% 0;
+  rotate: 2deg;
+  background-image: repeating-linear-gradient(-45deg, rgb(236 214 208 / 0.9) 0 6px, rgb(214 176 168 / 0.9) 6px 9px);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.25);
+}
+.backArrow {
+  width: 1.4em;
+  height: auto;
+  transition: translate 0.2s var(--ease-settle);
+}
+@media (hover: hover) {
+  .back:hover {
+    translate: 0 -2px;
+    rotate: -1deg;
+  }
+  .back:hover .backArrow {
+    translate: -0.15em 0;
+  }
+}
+.back:active {
+  translate: 0 1px;
+}
+.back:focus-visible {
+  outline: 2px dashed var(--color-warm-white);
+  outline-offset: 4px;
+}
+
+/* ---------- Landscape: fit the height ---------- */
+
+@media (orientation: landscape) {
+  .content {
+    gap: 1.5cqh;
+    padding-top: max(7cqh, env(safe-area-inset-top));
+  }
+  .cluster {
+    width: min(52cqw, 74cqh, 470px);
+  }
+  .clickme {
+    font-size: clamp(18px, 4.4cqw, 28px);
+  }
+}
+
+/* ---------- Reduced motion: no idle sway or breathing ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .bouquet {
+    animation: none;
+    rotate: 8deg;
+  }
+  .clickme {
+    animation: none;
+  }
+}

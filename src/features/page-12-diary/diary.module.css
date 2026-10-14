@@ -1,0 +1,412 @@
+/*
+ * Phase 12 (Birthday Diary Opening Spread) materials. After Reference Image 12,
+ * with its red swapped for the site's maroon (INSTRUCTIONS §2): an open
+ * spiral-bound diary on a maroon page. Left page — a big "22", a cupcake and
+ * the birthday message. Right page — the user's photo as a Polaroid with a
+ * "favourite person" label, candy-stripe tape, a gingham heart, a star charm
+ * and "I love you".
+ *
+ * The spiral is a flex strip BETWEEN the two pages, so it is a vertical column
+ * of rings in the side-by-side spread (landscape) and a horizontal row of rings
+ * between the stacked pages (portrait) with no extra markup. Each page is a size
+ * container, so its contents scale with the page rather than the viewport.
+ */
+
+.page {
+  container-type: size;
+}
+
+.content {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding:
+    max(10cqh, calc(env(safe-area-inset-top) + 7cqh))
+    4cqw
+    max(5cqh, env(safe-area-inset-bottom));
+  overflow: hidden;
+}
+
+/* ---------- The open diary ---------- */
+
+.diary {
+  position: relative;
+  rotate: -1deg;
+}
+
+/* Back cover peeking out behind the pages. */
+.cover {
+  position: absolute;
+  inset: -1.8%;
+  z-index: 0;
+  border-radius: 20px;
+  background: linear-gradient(150deg, var(--color-maroon-soft), var(--color-maroon-deep));
+  box-shadow: 0 10px 20px -6px rgb(20 0 0 / 0.5), 0 28px 44px -18px rgb(20 0 0 / 0.55);
+}
+
+.pages {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.pageHalf {
+  container-type: size;
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  background-color: var(--color-warm-white);
+  background-image: var(--paper-grain), radial-gradient(120% 90% at 50% 40%, transparent 60%, rgb(120 90 60 / 0.07) 100%);
+  background-size: 220px 220px, 100% 100%;
+  box-shadow: inset 0 0 0 1px rgb(201 183 151 / 0.4);
+}
+.pageL {
+  border-radius: 16px 5px 5px 16px;
+  /* gutter shadow on the inner (right) edge */
+  box-shadow: inset -14px 0 22px -16px rgb(33 26 23 / 0.5), inset 0 0 0 1px rgb(201 183 151 / 0.35);
+}
+.pageR {
+  border-radius: 5px 16px 16px 5px;
+  box-shadow: inset 14px 0 22px -16px rgb(33 26 23 / 0.5), inset 0 0 0 1px rgb(201 183 151 / 0.35);
+}
+
+/* ---------- Spiral binding (flex strip between the pages) ---------- */
+
+.spiral {
+  position: relative;
+  z-index: 3;
+  flex: 0 0 4%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  padding: 7% 0;
+}
+.ring {
+  display: block;
+  width: 190%;
+  aspect-ratio: 1 / 1;
+  margin: -1.5% 0;
+  filter: drop-shadow(0 2px 2px rgb(20 0 0 / 0.3));
+}
+.ring > svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ---------- Left page: number + cupcake + message ---------- */
+
+.leftInner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5cqh;
+  padding: 9cqh 13cqw;
+  text-align: center;
+}
+.numRow {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 3cqw;
+}
+.bigNum {
+  font-family: var(--font-display);
+  font-size: 22cqh;
+  line-height: 0.82;
+  color: var(--color-maroon);
+  letter-spacing: -0.02em;
+}
+.cupcake {
+  display: block;
+  width: 13cqw;
+  margin-bottom: 1.5cqh;
+}
+.cupcake > svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.message {
+  font-family: var(--font-hand);
+  font-weight: 600;
+  font-size: 5cqh;
+  line-height: 1.32;
+  color: var(--color-maroon-deep);
+  max-width: 24ch;
+  text-wrap: balance;
+}
+
+/* ---------- Right page: Polaroid + stickers + subtitle ---------- */
+
+.rightInner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4cqh;
+  padding: 8cqh 11cqw;
+}
+.photoWrap {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+/* Candy-stripe tape behind the Polaroid's left edge. */
+.tape {
+  position: absolute;
+  left: -7%;
+  top: 8%;
+  width: 34%;
+  height: 86%;
+  rotate: -2deg;
+  z-index: 0;
+  border-radius: 2px;
+  background-image: repeating-linear-gradient(
+    92deg,
+    var(--color-maroon) 0 6px,
+    rgb(255 255 255 / 0) 6px 7px,
+    var(--color-warm-white) 7px 13px,
+    rgb(255 255 255 / 0) 13px 14px
+  );
+  background-color: var(--color-warm-white);
+  box-shadow: 0 2px 4px rgb(20 0 0 / 0.22);
+}
+
+.polaroid {
+  position: relative;
+  z-index: 1;
+  width: 52cqw;
+  max-height: 68cqh;
+  rotate: 3deg;
+  background-color: var(--color-warm-white);
+  background-image: linear-gradient(160deg, rgb(255 255 255 / 0.7), transparent 50%);
+  padding: 6% 6% 20%;
+  border-radius: 3px;
+  box-shadow: var(--shadow-lifted);
+}
+.photo {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background-color: var(--color-paper-2);
+  border-radius: 1px;
+}
+.photoImg {
+  object-fit: cover;
+  object-position: 50% 42%;
+}
+
+.favLabel {
+  position: absolute;
+  top: -5%;
+  right: -13%;
+  z-index: 2;
+  rotate: 7deg;
+  padding: 0.3em 0.7em 0.35em;
+  background: var(--color-warm-white);
+  color: var(--color-maroon);
+  font-family: var(--font-hand);
+  font-weight: 700;
+  font-size: 4.6cqh;
+  line-height: 1;
+  white-space: nowrap;
+  border-radius: 3px;
+  box-shadow: 0 2px 4px rgb(20 0 0 / 0.22);
+}
+.favLabel::after {
+  /* little tape nub */
+  content: "";
+  position: absolute;
+  top: -0.35em;
+  left: 18%;
+  width: 34%;
+  height: 0.7em;
+  rotate: -8deg;
+  background-image: repeating-linear-gradient(-45deg, rgb(201 162 39 / 0.85) 0 5px, rgb(156 123 27 / 0.85) 5px 8px);
+}
+
+.ginghamHeart,
+.starCharm {
+  position: absolute;
+  z-index: 2;
+  display: block;
+}
+.ginghamHeart {
+  top: -6%;
+  left: -8%;
+  width: 20%;
+  rotate: -12deg;
+  filter: drop-shadow(0 2px 2px rgb(20 0 0 / 0.25));
+}
+.starCharm {
+  bottom: 9%;
+  right: -9%;
+  width: 17%;
+  rotate: 8deg;
+  filter: drop-shadow(0 2px 2px rgb(20 0 0 / 0.25));
+}
+.ginghamHeart > svg,
+.starCharm > svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.subtitle {
+  font-family: var(--font-hand);
+  font-weight: 700;
+  font-size: 5.4cqh;
+  line-height: 1;
+  color: var(--color-maroon-soft);
+}
+
+/* ---------- The Back tab ---------- */
+
+.back {
+  position: absolute;
+  top: max(2.5cqh, env(safe-area-inset-top));
+  left: 3cqw;
+  z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.5em 1em 0.55em;
+  rotate: -2deg;
+  background: var(--color-warm-white);
+  color: var(--color-maroon-deep);
+  font-family: var(--font-hand);
+  font-size: clamp(16px, 4.6cqw, 22px);
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+  border: 0;
+  clip-path: polygon(3% 8%, 97% 2%, 99% 92%, 2% 98%);
+  box-shadow: 0 2px 2px rgb(20 0 0 / 0.2), 0 8px 14px -6px rgb(20 0 0 / 0.4);
+  transition: translate 0.2s var(--ease-settle), rotate 0.2s var(--ease-settle);
+}
+.back::before {
+  content: "";
+  position: absolute;
+  top: -0.5em;
+  left: 50%;
+  width: 42%;
+  height: 1.1em;
+  translate: -50% 0;
+  rotate: 2deg;
+  background-image: repeating-linear-gradient(-45deg, rgb(236 214 208 / 0.9) 0 6px, rgb(214 176 168 / 0.9) 6px 9px);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.25);
+}
+.backArrow {
+  width: 1.4em;
+  height: auto;
+  transition: translate 0.2s var(--ease-settle);
+}
+@media (hover: hover) {
+  .back:hover {
+    translate: 0 -2px;
+    rotate: -1deg;
+  }
+  .back:hover .backArrow {
+    translate: -0.15em 0;
+  }
+}
+.back:active {
+  translate: 0 1px;
+}
+.back:focus-visible {
+  outline: 2px dashed var(--color-warm-white);
+  outline-offset: 4px;
+}
+
+/* ---------- Landscape: the side-by-side spread ---------- */
+
+@media (orientation: landscape) {
+  .diary {
+    width: min(92cqw, 150cqh, 940px);
+    aspect-ratio: 3 / 2;
+  }
+}
+
+/* ---------- Portrait: stack the pages, spiral between them ---------- */
+
+@media (orientation: portrait) {
+  .diary {
+    width: min(94cqw, 70cqh, 430px);
+    aspect-ratio: 0.68 / 1;
+  }
+  .pages {
+    flex-direction: column;
+  }
+  .spiral {
+    flex-basis: 5%;
+    flex-direction: row;
+    padding: 0 7%;
+  }
+  .ring {
+    width: auto;
+    height: 190%;
+    margin: 0 -1.5%;
+  }
+  .pageL {
+    border-radius: 16px 16px 5px 5px;
+    box-shadow: inset 0 -14px 22px -16px rgb(33 26 23 / 0.5), inset 0 0 0 1px rgb(201 183 151 / 0.35);
+  }
+  .pageR {
+    border-radius: 5px 5px 16px 16px;
+    box-shadow: inset 0 14px 22px -16px rgb(33 26 23 / 0.5), inset 0 0 0 1px rgb(201 183 151 / 0.35);
+  }
+  /* In portrait the page containers are wide and short, so size by width. */
+  .bigNum {
+    font-size: 28cqw;
+  }
+  .cupcake {
+    width: 11cqw;
+  }
+  .message {
+    font-size: 5.8cqw;
+    max-width: 30ch;
+  }
+  .leftInner {
+    gap: 2.5cqh;
+    padding: 6cqh 8cqw;
+  }
+  .rightInner {
+    gap: 3cqh;
+    padding: 6cqh 9cqw;
+  }
+  .polaroid {
+    width: 45cqw;
+    max-height: 80cqh;
+  }
+  .favLabel {
+    font-size: 5.4cqw;
+  }
+  .subtitle {
+    font-size: 7cqw;
+  }
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .diary {
+    rotate: -1deg;
+  }
+}

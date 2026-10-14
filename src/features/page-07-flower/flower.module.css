@@ -1,0 +1,511 @@
+/*
+ * Page 7 (Gift 2 — Flower) materials. After Reference Image 9 ("Some flowers
+ * for you"), with its blue swapped for maroon (INSTRUCTIONS §2): a cream
+ * polka-dot page with gingham scraps, a dotted filmstrip of three photos, and
+ * the kitten-with-bouquet sticker as the centrepiece. Paper, cream and white
+ * stay neutral. The reference's "Likes" overlay is a screen-recording artifact
+ * and is not part of the design.
+ *
+ * Mobile-first: portrait stacks the heading over a filmstrip + kitten row and
+ * may scroll. Landscape is the scattered spread, sized to the viewport.
+ */
+
+/* The page: cream, maroon polka dots, gingham corners, paper grain. */
+.page {
+  container-type: size;
+  --d: clamp(26px, 5vmin, 56px);
+  --dot: rgb(128 0 0 / 0.4);
+  --g: clamp(14px, 2.8vmin, 30px);
+  background-color: var(--color-paper);
+  background-image:
+    var(--paper-grain),
+    radial-gradient(120% 90% at 50% 40%, transparent 55%, rgb(120 90 60 / 0.12) 100%),
+    radial-gradient(circle, var(--dot) 0 calc(var(--d) * 0.14), transparent calc(var(--d) * 0.14 + 0.6px)),
+    radial-gradient(circle, var(--dot) 0 calc(var(--d) * 0.14), transparent calc(var(--d) * 0.14 + 0.6px));
+  background-size: 240px 240px, 100% 100%, var(--d) var(--d), var(--d) var(--d);
+  background-position: 0 0, 0 0, 0 0, calc(var(--d) / 2) calc(var(--d) / 2);
+}
+
+/* Maroon gingham scraps pinned in two corners. */
+.gingham,
+.ginghamB {
+  position: absolute;
+  z-index: 0;
+  background-color: rgb(255 253 248 / 0.5);
+  background-image:
+    linear-gradient(90deg, rgb(128 0 0 / 0.24) 50%, transparent 50%),
+    linear-gradient(rgb(128 0 0 / 0.24) 50%, transparent 50%);
+  background-size: var(--g) var(--g);
+}
+.gingham {
+  top: 0;
+  left: 0;
+  width: min(32cqw, 240px);
+  height: min(26cqh, 230px);
+  -webkit-mask-image: radial-gradient(130% 130% at 0 0, #000 55%, transparent 78%);
+  mask-image: radial-gradient(130% 130% at 0 0, #000 55%, transparent 78%);
+}
+.ginghamB {
+  right: 0;
+  bottom: 0;
+  width: min(26cqw, 200px);
+  height: min(22cqh, 190px);
+  -webkit-mask-image: radial-gradient(130% 130% at 100% 100%, #000 52%, transparent 76%);
+  mask-image: radial-gradient(130% 130% at 100% 100%, #000 52%, transparent 76%);
+}
+
+/* Scroll host. Clips horizontally (decorations run off the page edges). */
+.content {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ---------- Layout (portrait first) ---------- */
+
+.layout {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3cqh;
+  min-height: 100%;
+  padding:
+    max(10cqh, calc(env(safe-area-inset-top) + 8cqh))
+    4cqw
+    max(6cqh, env(safe-area-inset-bottom));
+}
+
+/* ---------- Heading + festive corner cluster ---------- */
+
+.headingWrap {
+  position: relative;
+  container-type: inline-size;
+  /* Narrow enough that the title wraps to two lines, leaving the sides and the
+     reserved top band (padding) for the party hats and stars. */
+  width: min(72cqw, 380px);
+  padding: 16cqw 0 0;
+}
+
+.heading {
+  margin: 0 auto;
+  text-align: center;
+  font-family: var(--font-hand);
+  font-weight: 700;
+  line-height: 1.04;
+  color: var(--color-maroon);
+  font-size: clamp(26px, 10.5cqw, 52px);
+  text-wrap: balance;
+  text-shadow: 0 1px 0 rgb(255 253 248 / 0.6);
+}
+.heading .word {
+  display: inline-block;
+}
+
+/* Cluster decorations, sized to the heading's width. */
+.hatA,
+.hatB,
+.stars,
+.bloom {
+  position: absolute;
+  display: block;
+  filter: drop-shadow(0 2px 2px rgb(33 26 23 / 0.24));
+}
+.hatA > svg,
+.hatB > svg,
+.stars > svg,
+.bloom > svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+/* Portrait: the festive cluster sits in the reserved top band and the right
+   margin, clear of the Back tab (top-left) and the heading text. */
+.hatA {
+  top: 0;
+  left: 2cqw;
+  width: 12cqw;
+  rotate: -16deg;
+}
+.hatB {
+  top: 0;
+  right: 2cqw;
+  width: 12cqw;
+  rotate: 14deg;
+}
+.stars {
+  top: 44%;
+  right: -5cqw;
+  width: 15cqw;
+  rotate: -6deg;
+}
+.bloom {
+  top: 2cqw;
+  left: 17cqw;
+  width: 7cqw;
+  rotate: 10deg;
+}
+
+/* ---------- The stage: filmstrip + kitten ---------- */
+
+.stage {
+  position: relative;
+  width: min(96cqw, 700px);
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 3cqw;
+}
+
+/* ----- Filmstrip ----- */
+
+.filmWrap {
+  position: relative;
+  container-type: inline-size;
+  flex: 0 0 38%;
+  max-width: 250px;
+  padding-top: 9cqw; /* room for the clip + bunny peeking over the top */
+}
+
+.film {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 4cqw;
+  /* extra side padding = the sprocket margins */
+  --band: clamp(15px, 9cqw, 24px);
+  --hole: clamp(4px, 2.6cqw, 7px);
+  --pitch: clamp(15px, 10cqw, 25px);
+  padding: 5cqw calc(var(--band) + 1cqw);
+  rotate: -2.5deg;
+  border-radius: 4px;
+  background-color: var(--color-maroon);
+  background-image:
+    var(--paper-grain),
+    radial-gradient(circle at 50% 50%, var(--color-warm-white) 0 var(--hole), rgb(255 253 248 / 0) calc(var(--hole) + 0.8px)),
+    radial-gradient(circle at 50% 50%, var(--color-warm-white) 0 var(--hole), rgb(255 253 248 / 0) calc(var(--hole) + 0.8px));
+  background-size:
+    160px 160px,
+    var(--band) var(--pitch),
+    var(--band) var(--pitch);
+  background-position:
+    0 0,
+    left center,
+    right center;
+  background-repeat:
+    repeat,
+    repeat-y,
+    repeat-y;
+  box-shadow: var(--shadow-lifted);
+}
+
+.cell {
+  position: relative;
+  margin: 0;
+  padding: 2.6cqw;
+  background: var(--color-warm-white);
+  box-shadow: 0 1px 2px rgb(33 26 23 / 0.3);
+}
+.shot {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: var(--color-paper-2);
+}
+.shot :global(img) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Filmstrip friends */
+.clip {
+  position: absolute;
+  top: 3cqw;
+  left: 50%;
+  width: 26cqw;
+  translate: -50% 0;
+  z-index: 4;
+  filter: drop-shadow(0 2px 2px rgb(33 26 23 / 0.28));
+}
+.clip > svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.bunny {
+  position: absolute;
+  top: -3cqw;
+  right: -9cqw;
+  width: 30cqw;
+  z-index: 5;
+  filter: drop-shadow(0 3px 3px rgb(33 26 23 / 0.26));
+}
+.bunnyBob {
+  display: block;
+  animation: bunnyBob 4.5s ease-in-out 2.6s infinite;
+}
+.bunnyBob > svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+@keyframes bunnyBob {
+  0%, 100% { translate: 0 0; rotate: 0deg; }
+  50% { translate: 0 -7%; rotate: 3deg; }
+}
+.record {
+  position: absolute;
+  bottom: -7cqw;
+  left: -8cqw;
+  width: 26cqw;
+  z-index: 4;
+  rotate: -8deg;
+  filter: drop-shadow(0 3px 3px rgb(33 26 23 / 0.28));
+}
+.record > svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.martini {
+  position: absolute;
+  right: -10cqw;
+  bottom: -11cqw;
+  width: 22cqw;
+  z-index: 4;
+  rotate: 7deg;
+  filter: drop-shadow(0 3px 3px rgb(33 26 23 / 0.26));
+}
+.martini > svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ----- Kitten hero ----- */
+
+.heroWrap {
+  position: relative;
+  container-type: inline-size;
+  flex: 0 0 58%;
+  max-width: 420px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.heroFloat {
+  width: 100%;
+  transform-origin: 50% 100%;
+  animation: heroSway 6.5s ease-in-out 2.6s infinite;
+}
+.hero {
+  width: 100%;
+}
+.heroSquash {
+  width: 100%;
+}
+.heroImg {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 8px 10px rgb(33 26 23 / 0.28));
+}
+@keyframes heroSway {
+  0%, 100% { rotate: 0deg; translate: 0 0; }
+  50% { rotate: -1.6deg; translate: 0 -0.8%; }
+}
+
+.heart {
+  position: absolute;
+  left: -2cqw;
+  bottom: 14cqw;
+  width: 17cqw;
+  z-index: 6;
+  rotate: -8deg;
+  filter: drop-shadow(0 3px 3px rgb(33 26 23 / 0.26));
+}
+.heart > svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ----- Right-edge swirl ----- */
+
+.swirl {
+  position: absolute;
+  right: 2cqw;
+  bottom: 6cqw;
+  width: 15cqw;
+  max-width: 120px;
+  z-index: 2;
+  filter: drop-shadow(0 2px 2px rgb(33 26 23 / 0.2));
+}
+.swirl > svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ---------- The Back tab ---------- */
+
+.back {
+  position: absolute;
+  top: max(2.5cqh, env(safe-area-inset-top));
+  left: 3cqw;
+  z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.5em 1em 0.55em;
+  rotate: -2deg;
+  background: var(--color-warm-white);
+  color: var(--color-maroon-deep);
+  font-family: var(--font-hand);
+  font-size: clamp(16px, 4.6cqw, 22px);
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+  border: 0;
+  clip-path: polygon(3% 8%, 97% 2%, 99% 92%, 2% 98%);
+  box-shadow: 0 2px 2px rgb(33 26 23 / 0.1), 0 8px 14px -6px rgb(33 26 23 / 0.3);
+  transition: translate 0.2s var(--ease-settle), rotate 0.2s var(--ease-settle);
+}
+.back::before {
+  content: "";
+  position: absolute;
+  top: -0.5em;
+  left: 50%;
+  width: 42%;
+  height: 1.1em;
+  translate: -50% 0;
+  rotate: 2deg;
+  background-image: repeating-linear-gradient(-45deg, rgb(236 214 208 / 0.9) 0 6px, rgb(214 176 168 / 0.9) 6px 9px);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.25);
+}
+.backArrow {
+  width: 1.4em;
+  height: auto;
+  transition: translate 0.2s var(--ease-settle);
+}
+@media (hover: hover) {
+  .back:hover {
+    translate: 0 -2px;
+    rotate: -1deg;
+  }
+  .back:hover .backArrow {
+    translate: -0.15em 0;
+  }
+}
+.back:active {
+  translate: 0 1px;
+}
+.back:focus-visible {
+  outline: 2px dashed var(--color-maroon);
+  outline-offset: 4px;
+}
+
+/* ---------- Landscape: the scattered spread, no scroll ---------- */
+
+@media (orientation: landscape) {
+  .layout {
+    display: block;
+    height: 100%;
+    min-height: 0;
+    padding: 4cqh 5cqw;
+  }
+
+  /* Heading hugs the top-right, rotated like a placed label. */
+  .headingWrap {
+    position: absolute;
+    top: 5cqh;
+    right: 4cqw;
+    width: min(42cqw, 440px);
+    padding: 0;
+    rotate: 3deg;
+    z-index: 3;
+  }
+  .heading {
+    font-size: clamp(30px, 6cqw, 66px);
+    text-align: right;
+  }
+  .hatA { top: -5cqw; left: -3cqw; width: 8cqw; }
+  .hatB { top: -6cqw; right: 1cqw; width: 7cqw; }
+  .stars { top: 100%; left: 2cqw; width: 11cqw; }
+  .bloom { top: 92%; left: 15cqw; width: 5cqw; }
+
+  /* The stage fills the page; film and kitten are placed on it. */
+  .stage {
+    position: absolute;
+    inset: 0;
+    width: auto;
+    display: block;
+  }
+
+  .filmWrap {
+    position: absolute;
+    top: 50%;
+    left: 5cqw;
+    width: min(23cqw, 220px);
+    max-width: none;
+    flex: none;
+    padding-top: 0;
+    translate: 0 -50%;
+  }
+  /* Fixed to the viewport height; the three cells share it, so nothing clips. */
+  .film {
+    height: 86cqh;
+    --bead: clamp(8px, 7cqw, 15px);
+    rotate: -4deg;
+  }
+  .cell {
+    flex: 1 1 0;
+    min-height: 0;
+  }
+  .shot {
+    aspect-ratio: auto;
+    height: 100%;
+  }
+
+  .heroWrap {
+    position: absolute;
+    bottom: 2cqh;
+    left: 34cqw;
+    width: min(38cqw, 440px);
+    max-width: none;
+    flex: none;
+  }
+
+  /* Decorations re-sized to their landscape wrappers (container units). */
+  .clip { top: -6cqw; width: 22cqw; }
+  .bunny { top: -11cqw; right: -6cqw; width: 26cqw; }
+  .record { bottom: 2cqw; left: -11cqw; width: 22cqw; }
+  .martini { right: -12cqw; bottom: -4cqw; width: 18cqw; }
+  .heart { left: -6cqw; bottom: 30cqw; width: 15cqw; }
+
+  .swirl {
+    right: 2cqw;
+    bottom: auto;
+    top: 50%;
+    width: min(11cqw, 120px);
+    translate: 0 -50%;
+  }
+}
+
+/* ---------- Reduced motion: no idle loops ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .heroFloat,
+  .bunnyBob {
+    animation: none;
+  }
+}

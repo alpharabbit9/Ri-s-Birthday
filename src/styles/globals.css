@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+/*
+ * Scrapbook design tokens.
+ * Maroon (#800000) replaces the blue used in the reference images.
+ * It is the dominant accent, not the whole page: paper, white and ink stay neutral.
+ */
+@theme {
+  /* Core palette (see docs/INSTRUCTIONS.md §2) */
+  --color-maroon: #800000;
+  --color-paper: #f7f1e5;
+  --color-warm-white: #fffdf8;
+  --color-ink: #211a17;
+  --color-paper-2: #e8ddcc;
+  --color-gold: #c9a227;
+
+  /* Maroon tints/shades for depth, washes and patterns */
+  --color-maroon-deep: #5c0000;
+  --color-maroon-soft: #a33a3a;
+  --color-maroon-wash: #ecd6d0;
+  --color-ink-soft: #5b4b43;
+
+  /* Typography: variables are injected by next/font in src/lib/fonts.ts */
+  --font-serif: var(--font-lora), Georgia, "Times New Roman", serif;
+  --font-hand: var(--font-caveat), "Segoe Print", "Bradley Hand", cursive;
+  --font-display: var(--font-abril), Georgia, serif;
+
+  /* Paper-object shadows: soft, warm, slightly offset like real paper on a desk */
+  --shadow-paper: 0 1px 1px rgb(33 26 23 / 0.06), 0 6px 14px -6px rgb(33 26 23 / 0.22);
+  --shadow-lifted: 0 2px 2px rgb(33 26 23 / 0.06), 0 18px 30px -12px rgb(33 26 23 / 0.32);
+
+  /* Motion: CSS-side easings (JS-side tokens live in src/lib/motion.ts) */
+  --ease-paper: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-settle: cubic-bezier(0.34, 1.32, 0.64, 1);
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+    --paper-grain: url("/assets/global/textures/paper-grain.svg");
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-paper font-serif text-ink antialiased;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  ::selection {
+    background: var(--color-maroon-wash);
+    color: var(--color-maroon-deep);
+  }
+
+  :focus-visible {
+    outline: 2px dashed var(--color-maroon);
+    outline-offset: 4px;
+  }
+}
+
+/* Paper sheet: warm base, fibre grain and a faint edge darkening. */
+@utility paper-surface {
+  background-color: var(--color-paper);
+  background-image:
+    var(--paper-grain),
+    radial-gradient(120% 90% at 50% 40%, transparent 55%, rgb(120 90 60 / 0.10) 100%);
+  background-size: 240px 240px, 100% 100%;
+}
+
+/* Maroon cardstock: same grain, soft lighter centre, darker edges. */
+@utility maroon-surface {
+  background-color: var(--color-maroon);
+  background-image:
+    var(--paper-grain),
+    radial-gradient(110% 85% at 50% 42%, rgb(255 240 230 / 0.07), transparent 60%),
+    radial-gradient(130% 100% at 50% 45%, transparent 55%, rgb(40 0 0 / 0.38) 100%);
+  background-size: 240px 240px, 100% 100%, 100% 100%;
+}
+
+/* Slight handmade tilts for placed objects. */
+@utility tilt-l {
+  rotate: -2.5deg;
+}
+@utility tilt-r {
+  rotate: 2deg;
+}
+
+/*
+ * Reduced motion: collapse CSS animations/transitions globally.
+ * Motion (MotionConfig reducedMotion="user") and GSAP (gsap.matchMedia in
+ * src/lib/gsap.ts) handle JS-driven animation separately.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,163 @@
+/*
+ * Phase 14 (Photo Reel) materials. After Reference Image 14, with its red
+ * swapped for the site's maroon (INSTRUCTIONS §2): a single 35mm film strip
+ * lying across a maroon page, carrying five of the user's photos (us4–us8),
+ * with a thin white string bow tied at its top-left and a small gold star past
+ * its right end.
+ *
+ * The film stock, its sprocket perforations (a repeating cream slot along each
+ * edge) and the frame cells are all CSS; the bow and star are inline SVG in
+ * decorations.tsx. The strip fits whole on tablet/desktop (all five frames in a
+ * row) with a very gentle idle drift so it feels like film; on phones it becomes
+ * a horizontal swipe (scroll-snap) with larger frames and no drift. The reel is
+ * one more panel in the shared vertical scroll surface — no page-turn.
+ */
+
+.section {
+  position: relative;
+  width: 100%;
+  min-height: min(78svh, 600px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding:
+    clamp(3.5rem, 10vw, 7rem)
+    max(1rem, env(safe-area-inset-right))
+    clamp(3.5rem, 10vw, 7rem)
+    max(1rem, env(safe-area-inset-left));
+}
+
+.stage {
+  position: relative;
+  width: min(1100px, 100%);
+  margin-inline: auto;
+}
+
+/* The viewport over the strip. Horizontal swipe on phones; the strip fits whole
+ * on wider screens. The vertical padding leaves room for the bow (which sticks
+ * up past the strip) so it is never clipped and no vertical scrollbar appears. */
+.window {
+  width: min(1100px, 94vw);
+  margin-inline: auto;
+  padding-block: clamp(26px, 5vw, 40px) 10px;
+  padding-inline: 2px;
+  overflow-x: auto;
+  /* Keep the horizontal swipe from chaining into the vertical (Lenis) page. */
+  overscroll-behavior: contain;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.window::-webkit-scrollbar {
+  display: none;
+}
+
+/* The film stock: a near-black strip, as wide as its frames, centred when it is
+ * narrower than the window. */
+.strip {
+  --perf-h: clamp(13px, 2.4vw, 19px);
+  --film-gap: clamp(4px, 0.9vw, 8px);
+  --frame-w: clamp(150px, 56vw, 230px); /* phones: big, swipeable */
+
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--film-gap);
+  width: max-content;
+  margin-inline: auto;
+  padding: var(--perf-h) clamp(10px, 1.8vw, 18px);
+  background-color: #141210;
+  background-image: linear-gradient(180deg, #1d1a17, #0c0a09);
+  border-radius: 3px;
+  box-shadow: var(--shadow-lifted), inset 0 0 0 1px rgb(0 0 0 / 0.6);
+}
+
+/* Sprocket perforations: a repeating cream slot along the top and bottom edges. */
+.perf {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: var(--perf-h);
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='20'%20height='16'%3E%3Crect%20x='5'%20y='3.2'%20width='10'%20height='9.6'%20rx='2.4'%20fill='%23efe7d6'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-position: center;
+  background-size: clamp(16px, 2.4vw, 22px) 100%;
+}
+.perfTop {
+  top: 0;
+}
+.perfBottom {
+  bottom: 0;
+}
+
+/* One film frame. */
+.frame {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 var(--frame-w);
+  scroll-snap-align: center;
+}
+.cell {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background-color: #000;
+  box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.85);
+}
+.cellImg {
+  object-fit: cover;
+  object-position: 50% 42%;
+}
+
+/* ---------- Bow (top-left) and star (right end), tied to the strip ---------- */
+
+.bow {
+  position: absolute;
+  z-index: 3;
+  width: clamp(66px, 13vw, 104px);
+  top: calc(-1 * clamp(16px, 4vw, 24px));
+  left: 4px;
+  filter: drop-shadow(0 2px 3px rgb(20 0 0 / 0.4));
+  pointer-events: none;
+}
+.star {
+  position: absolute;
+  z-index: 3;
+  width: clamp(34px, 6vw, 54px);
+  top: 50%;
+  right: -14px;
+  translate: 0 -50%;
+  rotate: 8deg;
+  filter: drop-shadow(0 2px 2px rgb(20 0 0 / 0.35));
+  pointer-events: none;
+}
+.bow > svg,
+.star > svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ---------- Tablet / desktop: all five frames fit, with a gentle drift ---------- */
+
+@media (min-width: 760px) {
+  .strip {
+    --frame-w: clamp(120px, 16.5vw, 196px);
+    animation: reelDrift 9s ease-in-out infinite alternate;
+    will-change: transform;
+  }
+}
+
+@keyframes reelDrift {
+  from {
+    transform: translate3d(-5px, 0, 0);
+  }
+  to {
+    transform: translate3d(6px, 0, 0);
+  }
+}
+
+/* Reduced motion: globals.css collapses the drift animation; the resting tilts
+ * on the star stay as-is. Nothing else to undo here. */

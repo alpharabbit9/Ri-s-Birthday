@@ -1,0 +1,243 @@
+/*
+ * Phase 13 (Scrolling Memory Scrapbook) materials. After Reference Image 13,
+ * with its red swapped for the site's maroon (INSTRUCTIONS §2): a maroon page
+ * that is scrolled into (no page-turn), holding two distinct scrapbook
+ * compositions stacked vertically.
+ *
+ *   Top    — Polaroid (us2) over an opened cream envelope on the LEFT, with a
+ *            handwritten note area on the RIGHT.
+ *   Bottom — a handwritten note area on the LEFT, with a Polaroid (the user's
+ *            `us3`) on the RIGHT, taped at the top-right and bottom-left corners
+ *            with a star in the corner.
+ *
+ * The two compositions mirror each other (photo/text, then text/photo) so they
+ * stay visually distinct. On narrow screens each composition stacks cleanly.
+ * Sticky tape is CSS so its stripes/edges stay crisp; the envelope and star are
+ * inline SVG in decorations.tsx.
+ */
+
+.section {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(3.5rem, 11vw, 8rem);
+  padding:
+    clamp(3rem, 9vw, 7rem)
+    max(1rem, env(safe-area-inset-right))
+    clamp(4rem, 11vw, 8rem)
+    max(1rem, env(safe-area-inset-left));
+}
+
+/* ---------- A single composition (two mirrored columns) ---------- */
+
+.comp {
+  position: relative;
+  width: min(1080px, 100%);
+  margin-inline: auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(2rem, 6vw, 4rem);
+  align-items: center;
+}
+
+.photoCol {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.noteCol {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+/* ---------- Polaroid ---------- */
+
+.polaroid {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 360px);
+  background-color: var(--color-warm-white);
+  background-image: linear-gradient(158deg, rgb(255 255 255 / 0.65), transparent 55%);
+  padding: 4.5% 4.5% 15%;
+  border-radius: 3px;
+  box-shadow: var(--shadow-lifted);
+}
+.polaroidTop {
+  rotate: -2deg;
+}
+.polaroidBottom {
+  rotate: 2.5deg;
+}
+
+.photo {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background-color: var(--color-paper-2);
+  border-radius: 1px;
+}
+.photoImg {
+  object-fit: cover;
+  object-position: 50% 40%;
+}
+
+/* ---------- Opened envelope behind the top Polaroid ---------- */
+
+.envelope {
+  position: absolute;
+  z-index: 0;
+  width: 116%;
+  left: 50%;
+  top: 48%;
+  translate: -51% -50%;
+  rotate: 2deg;
+  filter: drop-shadow(0 10px 16px rgb(20 0 0 / 0.35));
+  pointer-events: none;
+}
+.envelope > svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ---------- Sticky tape ---------- */
+
+.tape {
+  position: absolute;
+  z-index: 3;
+  width: 28%;
+  height: 12%;
+  box-shadow: 0 1px 3px rgb(20 0 0 / 0.2);
+}
+
+/* Candy-stripe washi on the top Polaroid (corners). */
+.tapeCandy {
+  background-color: var(--color-warm-white);
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--color-maroon) 0 6px,
+    rgb(255 255 255 / 0) 6px 7px,
+    var(--color-warm-white) 7px 13px,
+    rgb(255 255 255 / 0) 13px 14px
+  );
+  opacity: 0.95;
+}
+.tapeTopA {
+  top: -4%;
+  left: -6%;
+  rotate: -45deg;
+}
+.tapeTopB {
+  bottom: -4%;
+  right: -6%;
+  rotate: -45deg;
+}
+
+/* Kraft/masking tape on the bottom Polaroid (top-right + bottom-left corners). */
+.tapeKraft {
+  background-image: linear-gradient(180deg, rgb(216 192 142 / 0.82), rgb(197 169 116 / 0.82));
+  box-shadow: 0 1px 3px rgb(20 0 0 / 0.18), inset 0 0 0 1px rgb(156 123 27 / 0.12);
+}
+.tapeKraft::after {
+  /* faint vertical fibres */
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(90deg, rgb(120 90 40 / 0.1) 0 1px, transparent 1px 5px);
+}
+.tapeTR {
+  top: -4%;
+  right: -6%;
+  rotate: 45deg;
+}
+.tapeBL {
+  bottom: 10%;
+  left: -6%;
+  rotate: 45deg;
+}
+
+/* Little star stuck to the bottom Polaroid's top-left corner. */
+.cornerStar {
+  position: absolute;
+  z-index: 4;
+  width: 17%;
+  top: -7%;
+  left: -6%;
+  rotate: -12deg;
+  filter: drop-shadow(0 2px 2px rgb(20 0 0 / 0.3));
+}
+.cornerStar > svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ---------- Handwritten note area ---------- */
+
+.note {
+  width: min(100%, 34ch);
+  display: flex;
+  flex-direction: column;
+  gap: 0.72em;
+  font-family: var(--font-hand);
+  font-weight: 600;
+  font-size: clamp(1.15rem, 4.6vw, 1.6rem);
+  line-height: 1.42;
+  color: var(--color-paper);
+  text-shadow: 0 1px 1px rgb(20 0 0 / 0.3);
+}
+.note p {
+  margin: 0;
+}
+
+/* While the note is still placeholder text, outline it so it clearly reads as a
+ * fill-in-later area. The scene drops this class once real content is set. */
+.notePlaceholder {
+  padding: clamp(0.9rem, 3vw, 1.4rem) clamp(1rem, 3.2vw, 1.5rem);
+  border: 1.5px dashed rgb(247 241 229 / 0.45);
+  border-radius: 10px;
+  color: rgb(247 241 229 / 0.82);
+}
+
+/* ---------- Scatter decorations ---------- */
+
+.tinyHearts {
+  position: absolute;
+  z-index: 2;
+  width: clamp(44px, 9vw, 74px);
+  pointer-events: none;
+}
+.tinyHeartsTop {
+  right: 4%;
+  bottom: -8%;
+  rotate: 6deg;
+}
+.tinyHearts > svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ---------- Wide screens: mirror the two columns ---------- */
+
+@media (min-width: 820px) {
+  .comp {
+    gap: clamp(2.5rem, 5vw, 4.5rem);
+  }
+  .compTop {
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  }
+  .compBottom {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  }
+  .polaroid {
+    width: min(100%, 340px);
+  }
+}
+
+/* ---------- Reduced motion: nothing to collapse here (entrance is Motion,
+ * handled by MotionConfig). Resting tilts stay as-is. ---------- */

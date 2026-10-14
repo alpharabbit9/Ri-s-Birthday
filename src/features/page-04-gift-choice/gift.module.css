@@ -1,0 +1,292 @@
+/*
+ * Page 4 (Accept your gift?) materials. After Reference Image 4, with its
+ * blue swapped for maroon: polka dots on cream, gingham scraps in two
+ * corners, mirror balls, a star ribbon and cloud buttons. The NO answer is a
+ * sheet of maroon card laid over the page (after Reference Image 5).
+ */
+
+/* The page. Its size is the container for the layout on it. */
+.page {
+  container-type: size;
+  --d: clamp(60px, 14vmin, 120px);
+  --dot: rgb(128 0 0 / 0.42);
+  background-color: var(--color-paper);
+  background-image:
+    var(--paper-grain),
+    radial-gradient(120% 90% at 50% 45%, transparent 55%, rgb(120 90 60 / 0.12) 100%),
+    radial-gradient(circle, var(--dot) 0 calc(var(--d) * 0.1), transparent calc(var(--d) * 0.1 + 0.6px)),
+    radial-gradient(circle, var(--dot) 0 calc(var(--d) * 0.1), transparent calc(var(--d) * 0.1 + 0.6px));
+  background-size: 240px 240px, 100% 100%, var(--d) var(--d), var(--d) var(--d);
+  background-position: 0 0, 0 0, 0 0, calc(var(--d) / 2) calc(var(--d) / 2);
+}
+
+/* ---------- Layout (portrait first) ---------- */
+
+/* Heading, kitten, choices. The heading drops below the mirror balls on a phone. */
+.column {
+  padding-top: max(13cqh, env(safe-area-inset-top));
+  padding-bottom: max(5cqh, env(safe-area-inset-bottom));
+}
+
+.heading {
+  max-width: 76cqw;
+  font-size: min(12.5cqw, 7.4cqh);
+}
+
+/* The space between heading and choices; the kitten fits itself into it. */
+.stage {
+  container-type: size;
+}
+
+.cat {
+  /* sticker-2 is 866 x 1100. */
+  width: min(80cqw, calc(100cqh * 866 / 1100));
+}
+
+.choices {
+  gap: 10cqw;
+}
+
+.cloud {
+  --w: min(37cqw, 21cqh);
+}
+
+/* Mirror balls: where each hangs, its size and how long its string is. */
+.ballA { --x: 4cqw; --size: 13cqw; --drop: 2cqh; left: var(--x); }
+.ballB { --x: 15cqw; --size: 17cqw; --drop: 0cqh; left: var(--x); }
+.ballC { --x: 4cqw; --size: 20cqw; --drop: 1cqh; right: var(--x); }
+
+.scrapTop {
+  width: 44cqw;
+  height: 19cqh;
+}
+
+.scrapBottom {
+  width: 40cqw;
+  height: 14cqh;
+}
+
+.ribbon {
+  left: 3cqw;
+  top: 34cqh;
+  width: 4.4cqw;
+  height: 40cqh;
+  rotate: 5deg;
+}
+
+@media (orientation: landscape) {
+  .column {
+    padding-top: max(6cqh, env(safe-area-inset-top));
+    padding-bottom: max(4cqh, env(safe-area-inset-bottom));
+  }
+  .heading {
+    max-width: 62cqw;
+    font-size: min(6.2cqw, 12cqh);
+  }
+  .cat {
+    width: min(40cqw, calc(100cqh * 866 / 1100));
+  }
+  .choices {
+    gap: 22cqw;
+  }
+  .cloud {
+    --w: min(17cqw, 28cqh);
+  }
+  .ballA { --x: 9cqw; --size: 7.5cqw; --drop: 6cqh; }
+  .ballB { --x: 15cqw; --size: 10.5cqw; --drop: 1cqh; }
+  .ballC { --x: 3.5cqw; --size: 13cqw; --drop: 0cqh; }
+  .scrapTop {
+    width: 27cqw;
+    height: 46cqh;
+  }
+  .scrapBottom {
+    width: 21cqw;
+    height: 32cqh;
+  }
+  .ribbon {
+    left: 4cqw;
+    top: 33cqh;
+    width: 2.3cqw;
+    height: 56cqh;
+    rotate: 9deg;
+  }
+}
+
+/* ---------- Scrapbook materials ---------- */
+
+/* Maroon gingham, like the scraps on the earlier pages. */
+.gingham {
+  --g: clamp(12px, 2.6vmin, 28px);
+  background-color: var(--color-warm-white);
+  background-image:
+    linear-gradient(90deg, rgb(128 0 0 / 0.42) 50%, transparent 50%),
+    linear-gradient(rgb(128 0 0 / 0.42) 50%, transparent 50%);
+  background-size: var(--g) var(--g);
+}
+
+/* Top-left scrap: torn along the bottom and right, curving back to the left edge. */
+.tornTop {
+  clip-path: polygon(
+    0 0, 100% 0, 97% 9%, 99% 18%, 94% 27%, 96% 36%, 89% 44%, 84% 52%, 76% 56%, 66% 58%,
+    55% 63%, 45% 62%, 36% 68%, 29% 74%, 24% 82%, 17% 87%, 11% 95%, 4% 97%, 0 100%
+  );
+}
+
+/* Bottom-right scrap: torn along the top and left. */
+.tornBottom {
+  clip-path: polygon(
+    16% 10%, 24% 4%, 33% 8%, 42% 2%, 53% 7%, 62% 1%, 72% 6%, 83% 0, 92% 4%, 100% 2%,
+    100% 100%, 0 100%, 3% 89%, 0 78%, 5% 66%, 2% 55%, 7% 44%, 4% 33%, 10% 24%, 8% 15%
+  );
+}
+
+/* Die-cut sticker: a white edge and a soft shadow. */
+.sticker {
+  filter:
+    drop-shadow(2px 0 0 #fffdf8) drop-shadow(-2px 0 0 #fffdf8) drop-shadow(0 2px 0 #fffdf8)
+    drop-shadow(0 -2px 0 #fffdf8) drop-shadow(0 4px 5px rgb(33 26 23 / 0.3));
+}
+
+/* A mirror ball on its string. */
+.ball {
+  position: absolute;
+  top: 0;
+  width: var(--size);
+}
+
+/* Runs from the top edge to the ball's loop; it swings with the ball. */
+.string {
+  display: block;
+  width: 1px;
+  height: calc(var(--drop) + 2px);
+  margin: 0 auto -2px;
+  background: rgb(33 26 23 / 0.55);
+}
+
+.glint {
+  position: absolute;
+  width: 22%;
+  translate: -50% -50%;
+}
+
+/* ---------- Cloud buttons ---------- */
+
+.cloud {
+  width: var(--w);
+  aspect-ratio: 184 / 112;
+  font-size: calc(var(--w) * 0.25);
+}
+
+.cloudFace {
+  transition:
+    translate 0.35s var(--ease-settle),
+    rotate 0.35s var(--ease-settle),
+    scale 0.2s ease-out;
+}
+
+.cloudArt {
+  filter: drop-shadow(0 4px 5px rgb(33 26 23 / 0.22));
+}
+
+@media (hover: hover) {
+  .cloud:hover .cloudFace {
+    translate: 0 -4px;
+    rotate: -2.5deg;
+    scale: 1.05;
+  }
+  .cloud.right:hover .cloudFace {
+    rotate: 2.5deg;
+  }
+}
+
+.cloud:active .cloudFace {
+  translate: 0 1px;
+  scale: 0.95;
+}
+
+.cloud:focus-visible {
+  outline: none;
+}
+.cloud:focus-visible .cloudFace {
+  outline: 2px dashed var(--color-maroon);
+  outline-offset: 4px;
+  border-radius: 40%;
+}
+
+/* ---------- The NO answer: a sheet of maroon card ---------- */
+
+.sheet {
+  --d: clamp(60px, 14vmin, 120px);
+}
+
+/* Tone-on-tone dots, so it reads as the same paper family as the page. */
+.sheetDots {
+  background-image:
+    radial-gradient(circle, rgb(40 0 0 / 0.22) 0 calc(var(--d) * 0.1), transparent calc(var(--d) * 0.1 + 0.6px)),
+    radial-gradient(circle, rgb(40 0 0 / 0.22) 0 calc(var(--d) * 0.1), transparent calc(var(--d) * 0.1 + 0.6px));
+  background-size: var(--d) var(--d), var(--d) var(--d);
+  background-position: 0 0, calc(var(--d) / 2) calc(var(--d) / 2);
+}
+
+.sorry {
+  max-width: 84cqw;
+  font-size: min(12.5cqw, 7.4cqh);
+}
+
+/* The space for the sticker, between heading and button. */
+.sheetStage {
+  container-type: size;
+}
+
+.stickerOne {
+  /* sticker-1 is 921 x 1000. */
+  width: min(70cqw, calc(100cqh * 921 / 1000), 520px);
+}
+
+@media (orientation: landscape) {
+  .sorry {
+    max-width: 70cqw;
+    font-size: min(6.2cqw, 12cqh);
+  }
+}
+
+/* ---------- Resting motion, once the page is built (.idle on the page) ---------- */
+
+.swing {
+  transform-origin: 50% 0;
+}
+.idle .swing {
+  animation: swing 6.6s ease-in-out infinite;
+}
+.idle .swing.late {
+  animation-duration: 7.8s;
+  animation-direction: reverse;
+}
+
+.idle .twinkle {
+  animation: twinkle 2.6s ease-in-out infinite;
+}
+
+/* The kitten rocks a little on its feet. */
+.idle .catIdle {
+  transform-origin: 50% 100%;
+  animation: rock 5.6s ease-in-out infinite;
+}
+
+@keyframes swing {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(2.4deg); }
+  75% { transform: rotate(-2.4deg); }
+}
+
+@keyframes twinkle {
+  0%, 55%, 100% { transform: scale(0); opacity: 0; }
+  70% { transform: scale(1) rotate(45deg); opacity: 1; }
+  85% { transform: scale(0.2) rotate(90deg); opacity: 0; }
+}
+
+@keyframes rock {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(1deg); }
+  75% { transform: rotate(-1deg); }
+}

@@ -1,0 +1,192 @@
+/*
+ * Page 5 (Choose your gift) materials. After Reference Image 7, with its blue
+ * swapped for maroon: maroon polka dots on cream, a cursive heading flanked by
+ * a martini and a lipstick kiss, and four gifts — each a cut-out illustration
+ * above a ribbon-banner label. Paper, cream and white stay neutral.
+ */
+
+/* The page. Its size is the container for the layout on it. */
+.page {
+  container-type: size;
+  --d: clamp(60px, 14vmin, 120px);
+  --dot: rgb(128 0 0 / 0.4);
+  background-color: var(--color-paper);
+  background-image:
+    var(--paper-grain),
+    radial-gradient(120% 90% at 50% 45%, transparent 55%, rgb(120 90 60 / 0.12) 100%),
+    radial-gradient(circle, var(--dot) 0 calc(var(--d) * 0.1), transparent calc(var(--d) * 0.1 + 0.6px)),
+    radial-gradient(circle, var(--dot) 0 calc(var(--d) * 0.1), transparent calc(var(--d) * 0.1 + 0.6px));
+  background-size: 240px 240px, 100% 100%, var(--d) var(--d), var(--d) var(--d);
+  background-position: 0 0, 0 0, 0 0, calc(var(--d) / 2) calc(var(--d) / 2);
+}
+
+/* ---------- Layout (portrait first) ---------- */
+
+.column {
+  padding-top: max(6cqh, env(safe-area-inset-top));
+  padding-bottom: max(5cqh, env(safe-area-inset-bottom));
+}
+
+.headingWrap {
+  width: 100%;
+  max-width: 96cqw;
+}
+
+.heading {
+  max-width: 78cqw;
+  font-size: min(11.5cqw, 7.5cqh);
+}
+
+/* Martini to the left of the words, kiss up to the right (after the reference). */
+.martini {
+  left: 2cqw;
+  bottom: -3cqh;
+  width: min(15cqw, 11cqh);
+}
+.kiss {
+  right: 3cqw;
+  top: -4cqh;
+  width: min(15cqw, 10cqh);
+  rotate: 12deg;
+}
+
+/* Three gifts: two up top, the third centered below, on a phone. */
+.gifts {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  place-items: center;
+  gap: 3cqh 4cqw;
+  padding: 2cqh 3cqw;
+}
+
+.gift {
+  --w: min(34cqw, 22cqh);
+}
+/* With three gifts, the third spans both columns and centers under the pair. */
+.gift:nth-child(3) {
+  grid-column: 1 / -1;
+}
+
+.art {
+  width: var(--w);
+}
+
+.banner {
+  font-size: min(5.6cqw, 3.8cqh);
+}
+
+@media (orientation: landscape) {
+  .column {
+    padding-top: max(5cqh, env(safe-area-inset-top));
+  }
+  .heading {
+    max-width: 64cqw;
+    font-size: min(6.2cqw, 12cqh);
+  }
+  .martini {
+    left: 9cqw;
+    bottom: -4cqh;
+    width: min(7cqw, 15cqh);
+  }
+  .kiss {
+    right: 10cqw;
+    top: -5cqh;
+    width: min(7cqw, 14cqh);
+  }
+  /* One row of three, lightly staggered so it reads as placed by hand. */
+  .gifts {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0 2cqw;
+    align-items: start;
+    padding: 4cqh 4cqw 2cqh;
+  }
+  .gift {
+    --w: min(16.5cqw, 32cqh);
+  }
+  .gift:nth-child(1) { margin-top: 6cqh; }
+  .gift:nth-child(2) { margin-top: 0.5cqh; }
+  /* Reset the portrait full-width span; in a row the third gift is a normal cell. */
+  .gift:nth-child(3) { margin-top: 7cqh; grid-column: auto; }
+  .banner {
+    font-size: min(2.5cqw, 4.4cqh);
+  }
+}
+
+/* ---------- A gift (cut-out illustration + ribbon banner) ---------- */
+
+.gift {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.8cqh;
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.gift[aria-disabled="true"] {
+  cursor: default;
+}
+
+/* Constant handmade angle; the hover tilt is added on .art inside it. */
+.tilt {
+  display: block;
+}
+
+.art {
+  display: block;
+  filter:
+    drop-shadow(1.5px 0 0 #fffdf8) drop-shadow(-1.5px 0 0 #fffdf8) drop-shadow(0 1.5px 0 #fffdf8)
+    drop-shadow(0 -1.5px 0 #fffdf8) drop-shadow(0 5px 6px rgb(33 26 23 / 0.28));
+  transition:
+    translate 0.3s var(--ease-settle),
+    rotate 0.3s var(--ease-settle),
+    scale 0.2s ease-out;
+}
+.art > svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (hover: hover) {
+  .gift:not([aria-disabled="true"]):hover .art {
+    translate: 0 -5px;
+    rotate: -3deg;
+    scale: 1.05;
+  }
+  .gift:nth-child(even):not([aria-disabled="true"]):hover .art {
+    rotate: 3deg;
+  }
+}
+
+.gift:not([aria-disabled="true"]):active .art {
+  translate: 0 1px;
+  scale: 0.96;
+}
+
+.gift:focus-visible {
+  outline: none;
+}
+.gift:focus-visible .art {
+  outline: 2px dashed var(--color-maroon);
+  outline-offset: 6px;
+  border-radius: 12%;
+}
+
+/* Ribbon banner label with swallowtail ends, like the paper tags in the reference. */
+.banner {
+  position: relative;
+  padding: 0.5em 1.5em;
+  background: var(--color-maroon-wash);
+  color: var(--color-maroon-deep);
+  font-family: var(--font-hand);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.03em;
+  clip-path: polygon(0 0, 9% 50%, 0 100%, 100% 100%, 91% 50%, 100% 0);
+  filter: drop-shadow(0 2px 2px rgb(33 26 23 / 0.26));
+}
