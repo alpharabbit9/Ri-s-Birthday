@@ -96,9 +96,6 @@ export function LetterScene({ onBack }: LetterSceneProps) {
                   <p data-anim="line" className={styles.closing}>
                     {letter.closing}
                   </p>
-                  <p data-anim="line" className={styles.signature}>
-                    {letter.signature}
-                  </p>
                 </div>
               </div>
             </div>

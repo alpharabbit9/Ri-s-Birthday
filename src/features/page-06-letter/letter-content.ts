@@ -2,10 +2,10 @@
  * Letter text for Page 6 (Gift 1 — Letter).
  *
  * The body below is the user's own words. The salutation uses the term of
- * address used throughout the site. The `closing` and `signature` fields are
- * still clearly-marked placeholders awaiting the user's sign-off and name
+ * address used throughout the site. The `closing` field is still a
+ * clearly-marked placeholder awaiting the user's sign-off
  * (INSTRUCTIONS.md Rule 2: never invent personal relationship content), which is
- * why `placeholder` stays true — it keeps the draft styling until those are set.
+ * why `placeholder` stays true — it keeps the draft styling until it is set.
  */
 export const letter = {
   placeholder: true,
@@ -18,5 +18,4 @@ export const letter = {
     "Here's to us, and all the memories waiting to happen.",
   ],
   closing: " The guy u hate most,",
-  signature: "[your signature]",
 } as const;
