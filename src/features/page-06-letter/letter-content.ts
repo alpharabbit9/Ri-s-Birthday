@@ -16,8 +16,7 @@ export const letter = {
     "More pictures, more late-night conversations, more random outings, more laughing at absolutely nothing, and probably many more moments where you tell me “CHUP.” 😂",
     "I don't know exactly what the future will look like, but there are so many things I want to experience with you. And when we look back years from now, I hope we have a thousand little stories that make us smile the same way they do today.",
     "Here's to us, and all the memories waiting to happen.",
-    ,
   ],
   closing: " The guy u hate most,",
-  
+  signature: "[your signature]",
 } as const;

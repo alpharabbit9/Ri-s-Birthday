@@ -16,7 +16,6 @@ export const memoriesContent = {
       "You know what I love the most about us? It's not just the big moments. It's the little things. Our random conversations, sharing stories about our day, watching movies together, your funny reels, and all the silly things that somehow become my favourite memories.",
       "Sometimes we don't even need to do anything special. Just talking to you is enough to make an ordinary day feel a little better. And I hope we never stop having these little moments, no matter how busy life gets.",
       "Because honestly, it's the little things with you that mean the most to me.",
-      ,
     ],
   },
 
