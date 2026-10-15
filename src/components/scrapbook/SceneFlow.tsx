@@ -69,7 +69,7 @@ const fade = {
  */
 export function SceneFlow() {
   const devStart = useDevStartScene();
-  const { playSong, playEffect } = useMusic();
+  const { playSong, playEffect, startTone } = useMusic();
   const [chosen, setChosen] = useState<Scene | null>(null);
   const scene = chosen ?? devStart ?? "envelope";
 
@@ -99,7 +99,16 @@ export function SceneFlow() {
       <AnimatePresence>
         {scene === "envelope" && (
           <motion.div key="envelope" exit={{ opacity: 0 }} transition={{ duration: 0.6 }}>
-            <EnvelopeScene onOpened={() => go("spread")} />
+            <EnvelopeScene
+              onUnlock={() => {
+                // The gentle tone begins here: tone.mp3 fades in as the lock
+                // opens, and carries on until the full song crossfades in on
+                // Gift 3. Called inside the unlock gesture so the browser
+                // allows playback.
+                startTone();
+              }}
+              onOpened={() => go("spread")}
+            />
           </motion.div>
         )}
       </AnimatePresence>
@@ -137,6 +146,8 @@ export function SceneFlow() {
           <motion.div key="choose" className="absolute inset-0 z-20" {...fade}>
             <GiftMenuScene
               onChoose={(to) => {
+                // A bright chime as the chosen gift opens, then the page turn.
+                playEffect("giftOpen");
                 // The music begins here: song.mp3 fades in as the Gift 3
                 // (surprise) page opens, and carries on through every later
                 // scene. Called inside the gift-tap gesture so the browser

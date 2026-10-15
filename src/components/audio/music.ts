@@ -12,11 +12,9 @@ import { createContext, useContext } from "react";
  *             opens (inside the gift-tap gesture on the "Choose your gift"
  *             menu), and carries on through every later scene — the diary,
  *             memories, reel and final letter.
- *   "tone"  — a gentle, melodic version meant to play earlier (from the Page 2
- *             unlock). The machinery is kept here and in MusicProvider, but it
- *             is not triggered yet: add tone.mp3 and wire startTone() back into
- *             the envelope unlock in SceneFlow to use it. Until then Pages 1–4
- *             are silent.
+ *   "tone"  — a gentle, melodic version that plays from the Page 1 unlock
+ *             (inside the unlock gesture in SceneFlow) until the song
+ *             crossfades in on Gift 3 — see public/assets/global/music/tone.mp3.
  *
  * "none" is the state before the song begins, when nothing plays and the
  * control is hidden.
@@ -45,24 +43,40 @@ export const FADE = {
 /**
  * One-shot sound effects, played over the background music by `playEffect`.
  *
- *   "pageTurn"  — a short paper turn, played on every scene change.
- *   "applause"  — a small group's cheer, played when the candles are blown out.
+ *   "pageTurn"      — a short paper turn, played on every scene change.
+ *   "applause"      — a small group's cheer, played when the candles are blown out.
+ *   "envelopeOpen"  — a paper slide, played as the envelope flap opens on Page 1.
+ *   "keyClick"      — a soft lock tap, played on each padlock keypress on Page 1.
+ *   "unlock"        — a metallic lock clunk, played when the right code lands.
+ *   "giftOpen"      — a bright success chime, played when a gift is chosen on Page 5.
+ *   "noFail"        — the user's "Faaaah" meme sound, played when the NO sheet
+ *                     is fully up on Page 4 (user-supplied file, like song.mp3).
  *
  * They are played through the same controller so the mute toggle and volume
  * slider govern them too (one "sound" switch for the whole experience).
  */
-export type SfxName = "pageTurn" | "applause";
+export type SfxName = "pageTurn" | "applause" | "envelopeOpen" | "keyClick" | "unlock" | "giftOpen" | "noFail";
 
 /** Local paths for each effect. */
 export const SFX_SOURCES: Record<SfxName, string> = {
   pageTurn: "/assets/global/sounds/page-turn.mp3",
   applause: "/assets/page-03-cake/sounds/applause.mp3",
+  envelopeOpen: "/assets/page-01-envelope/sounds/envelope-open.mp3",
+  keyClick: "/assets/page-01-envelope/sounds/key-click.mp3",
+  unlock: "/assets/page-01-envelope/sounds/unlock.mp3",
+  giftOpen: "/assets/page-05-gift-menu/sounds/gift-open.mp3",
+  noFail: "/assets/global/sounds/fahhh.mp3",
 };
 
 /** Per-effect base volume (0–1), scaled by the master volume at play time. */
 export const SFX_VOLUME: Record<SfxName, number> = {
   pageTurn: 0.6,
   applause: 0.85,
+  envelopeOpen: 0.7,
+  keyClick: 0.5,
+  unlock: 0.8,
+  giftOpen: 0.7,
+  noFail: 0.9,
 };
 
 export type MusicContextValue = {

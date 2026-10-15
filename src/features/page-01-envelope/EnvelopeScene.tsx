@@ -5,6 +5,7 @@ import { useRef, useState, type CSSProperties } from "react";
 
 import { gsap, motionMedia, useGSAP } from "@/lib/gsap";
 import { ease, spring } from "@/lib/motion";
+import { useMusic } from "@/components/audio/music";
 
 import { ArrowDoodle } from "./doodles";
 import { Envelope } from "./Envelope";
@@ -57,6 +58,7 @@ export function EnvelopeScene({ onUnlock, onOpened }: EnvelopeSceneProps) {
   const scope = useRef<HTMLElement>(null);
   const stageRef = useRef<Stage>("sealed");
   const [stage, setStage] = useState<Stage>("sealed");
+  const { playEffect } = useMusic();
 
   const { contextSafe } = useGSAP(
     () => {
@@ -85,6 +87,7 @@ export function EnvelopeScene({ onUnlock, onOpened }: EnvelopeSceneProps) {
     if (stageRef.current !== "locked") return;
     goTo("opening");
     onUnlock?.(); // start the music while we still have the unlock gesture
+    playEffect("envelopeOpen"); // paper slide as the flap lifts
 
 
 

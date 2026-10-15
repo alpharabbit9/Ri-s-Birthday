@@ -147,6 +147,10 @@ export function FlowerScene({ onBack }: FlowerSceneProps) {
               <span data-anim="deco" aria-hidden className={styles.heart}>
                 <PuffHeart />
               </span>
+              <p data-anim="bubble" className={styles.bubble}>
+                I brought you flowers, but they’ll never compare to your beauty. 💐 After all, even flowers know when
+                they’ve met their queen. 👑💕
+              </p>
               <div className={styles.heroFloat}>
                 <div data-anim="hero" className={styles.hero}>
                   <div data-anim="hero-squash" className={styles.heroSquash}>

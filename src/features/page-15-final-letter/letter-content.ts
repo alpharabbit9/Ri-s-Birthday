@@ -15,7 +15,7 @@ export const finalLetter = {
   body:
     "And just like that another little chapter becomes a memory . I hope you " +
     "always remember how loved you are , not just today . But in all the " +
-    "ordinary moment in between . here's to out late night converation , Our " +
+    "ordinary moment in between . here's to our late night converation , Our " +
     "funny reels ( well technically your reels , coz u dont find my ones funny) " +
     ", silly pictures , our bus moments and all the memories we havent made yet " +
     ". whatever comes next , i am glad I get to e part of it",

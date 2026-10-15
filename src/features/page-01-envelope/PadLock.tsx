@@ -4,6 +4,7 @@ import { AnimatePresence, motion, useAnimate, useReducedMotion } from "motion/re
 import { useEffect, useEffectEvent, useId, useRef, useState } from "react";
 
 import { handTilt, spring } from "@/lib/motion";
+import { useMusic } from "@/components/audio/music";
 
 import { HandHeart, UndoDoodle } from "./doodles";
 import { LOCK_CODE } from "./lock-code";
@@ -77,6 +78,7 @@ export function PadLock({ active, onUnlock }: PadLockProps) {
   const [shaker, animate] = useAnimate<HTMLDivElement>();
   const reduceMotion = useReducedMotion();
   const group = useRef<HTMLDivElement>(null);
+  const { playEffect } = useMusic();
 
   // Refs, not state, so quick typing between renders never loses a digit.
   const entered = useRef("");
@@ -98,6 +100,7 @@ export function PadLock({ active, onUnlock }: PadLockProps) {
     later(() => {
       if (attempt === LOCK_CODE) {
         setStatus("right");
+        playEffect("unlock");
         later(onUnlock, 700);
         return;
       }
@@ -119,6 +122,7 @@ export function PadLock({ active, onUnlock }: PadLockProps) {
 
   const press = (key: string) => {
     if (!active || checking.current) return;
+    playEffect("keyClick");
     if (key === BACK) entered.current = entered.current.slice(0, -1);
     else if (entered.current.length < LOCK_CODE.length) entered.current += key;
     setCode(entered.current);

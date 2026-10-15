@@ -7,7 +7,8 @@ import { gsap } from "@/lib/gsap";
  * Entrance (after Reference Image 9's build order): the heading is written in →
  * the filmstrip settles and its photos drop into their cells one after another →
  * the kitten with the bouquet is pressed on like a big sticker and settles →
- * the decorations are scattered on last → the Back tab appears.
+ * the kitten's speech bubble pops up from its tail → the decorations are
+ * scattered on last → the Back tab appears.
  *
  * Resting tilts live in CSS as the `rotate` property; GSAP animates `rotation`
  * (the transform), so the two compose and the handmade angle is kept. The idle
@@ -28,6 +29,8 @@ export function playEntrance(root: HTMLElement, onReady: () => void) {
     // The kitten is pressed on: big and tilted, then down to its resting angle.
     .from(q('[data-anim="hero"]'), { autoAlpha: 0, scale: 1.3, rotation: 8, y: -16, duration: 0.5, ease: "power3.in" }, 0.95)
     .from(q('[data-anim="hero-squash"]'), { scaleY: 0.94, scaleX: 1.05, transformOrigin: "50% 100%", duration: 0.55, ease: "elastic.out(1, 0.4)" }, 1.42)
+    // The speech bubble pops up from its tail, just after the kitten lands.
+    .from(q('[data-anim="bubble"]'), { autoAlpha: 0, scale: 0.6, rotation: 6, transformOrigin: "30% 100%", duration: 0.55, ease: "back.out(2.2)" }, 1.75)
     // Decorations settle in, scattered.
     .from(q('[data-anim="deco"]'), { autoAlpha: 0, scale: 0.55, rotation: () => gsap.utils.random(-16, 16), duration: 0.5, stagger: 0.07, ease: "back.out(2)" }, 1.3)
     // Back tab.

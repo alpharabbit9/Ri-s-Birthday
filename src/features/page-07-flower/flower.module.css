@@ -336,6 +336,50 @@
   height: auto;
 }
 
+/* ----- Speech bubble from the kitten ----- */
+
+.bubble {
+  position: absolute;
+  left: 50%;
+  bottom: 96%;
+  translate: -50% 0;
+  width: 106%;
+  z-index: 7;
+  rotate: -2deg;
+  margin: 0;
+  padding: 3.2cqw 4.2cqw 3.8cqw;
+  background-color: var(--color-warm-white);
+  background-image: var(--paper-grain);
+  background-size: 160px 160px;
+  border: 2px dashed rgb(128 0 0 / 0.45);
+  border-radius: 18px;
+  color: var(--color-maroon-deep);
+  font-family: var(--font-hand);
+  font-weight: 700;
+  font-size: clamp(12px, 6.2cqw, 21px);
+  line-height: 1.15;
+  text-align: center;
+  text-wrap: pretty;
+  filter: drop-shadow(0 4px 4px rgb(33 26 23 / 0.25));
+}
+/* The tail: a paper square turned 45deg, pointing down at the kitten. */
+.bubble::after {
+  content: "";
+  position: absolute;
+  left: 30%;
+  bottom: -2.2cqw;
+  width: 4.4cqw;
+  height: 4.4cqw;
+  min-width: 12px;
+  min-height: 12px;
+  max-width: 22px;
+  max-height: 22px;
+  background-color: var(--color-warm-white);
+  border-right: 2px dashed rgb(128 0 0 / 0.45);
+  border-bottom: 2px dashed rgb(128 0 0 / 0.45);
+  rotate: 45deg;
+}
+
 /* ----- Right-edge swirl ----- */
 
 .swirl {

@@ -5,6 +5,7 @@ import { Fragment, useRef, useState, type CSSProperties, type Ref } from "react"
 import { flushSync } from "react-dom";
 
 import { gsap, motionMedia, useGSAP } from "@/lib/gsap";
+import { useMusic } from "@/components/audio/music";
 
 import { Cloud, Glint, MirrorBall, StarRibbon } from "./decorations";
 import styles from "./gift.module.css";
@@ -58,6 +59,7 @@ export function GiftChoiceScene({ onAccept }: GiftChoiceSceneProps) {
   const okayRef = useRef<HTMLButtonElement>(null);
   const stageRef = useRef<Stage>("building");
   const [stage, setStage] = useState<Stage>("building");
+  const { playEffect } = useMusic();
 
   const goTo = (next: Stage) => {
     stageRef.current = next;
@@ -91,6 +93,7 @@ export function GiftChoiceScene({ onAccept }: GiftChoiceSceneProps) {
     // Hand focus to OKAY once it's on the sheet.
     const done = () => {
       goTo("declined");
+      playEffect("noFail"); // the "Faaaah" meme lands with the sheet fully up
       okayRef.current?.focus();
     };
     contextSafe(() => {
