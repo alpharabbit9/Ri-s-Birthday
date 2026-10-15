@@ -125,10 +125,6 @@ export function SceneFlow() {
           <motion.div key="accept" className="absolute inset-0 z-20" {...fade}>
             <GiftChoiceScene
               onAccept={() => {
-                // The music begins here: song.mp3 fades in as the Choose Your
-                // Gift page appears, and carries on through every later scene.
-                // Called inside the accept gesture so the browser allows playback.
-                playSong();
                 go("choose");
               }}
             />
@@ -139,7 +135,16 @@ export function SceneFlow() {
       <AnimatePresence>
         {scene === "choose" && (
           <motion.div key="choose" className="absolute inset-0 z-20" {...fade}>
-            <GiftMenuScene onChoose={(to) => go(to)} />
+            <GiftMenuScene
+              onChoose={(to) => {
+                // The music begins here: song.mp3 fades in as the Gift 3
+                // (surprise) page opens, and carries on through every later
+                // scene. Called inside the gift-tap gesture so the browser
+                // allows playback.
+                if (to === "surprise") playSong();
+                go(to);
+              }}
+            />
           </motion.div>
         )}
       </AnimatePresence>

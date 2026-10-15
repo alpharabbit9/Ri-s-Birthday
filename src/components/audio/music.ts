@@ -8,10 +8,10 @@ import { createContext, useContext } from "react";
  * The scrapbook plays user-supplied local tracks (no copyrighted audio is
  * bundled or downloaded — see public/assets/global/music/README.txt):
  *
- *   "song"  — the full track that fades in when the Page 5 "Choose your gift"
- *             menu appears (inside the accept gesture on Page 4), and carries
- *             on through every later scene — the gifts, Gift 4 (the surprise),
- *             the diary, memories, reel and final letter.
+ *   "song"  — the full track that fades in when the Gift 3 surprise page
+ *             opens (inside the gift-tap gesture on the "Choose your gift"
+ *             menu), and carries on through every later scene — the diary,
+ *             memories, reel and final letter.
  *   "tone"  — a gentle, melodic version meant to play earlier (from the Page 2
  *             unlock). The machinery is kept here and in MusicProvider, but it
  *             is not triggered yet: add tone.mp3 and wire startTone() back into
@@ -82,7 +82,7 @@ export type MusicContextValue = {
    * a track is already armed, so navigating back and forth never restarts it.
    */
   startTone: () => void;
-  /** Crossfade to the full song. Called when Gift 4 opens. No-op if already on it. */
+  /** Crossfade to the full song. Called when Gift 3 (the surprise) opens. No-op if already on it. */
   playSong: () => void;
   /**
    * Play a one-shot sound effect over the music. Honors the mute toggle and the
